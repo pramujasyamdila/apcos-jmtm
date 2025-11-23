@@ -113,7 +113,7 @@
 
 
                                                         <!-- Gambar -->
-                                                        <img src="<?php echo base_url();?>/assets/brand/vendors-image.png"
+                                                        <img src="<?php echo base_url(); ?>/assets/brand/vendors-image.png"
                                                             class="card-img-top"
                                                             style="border-radius: 15px; padding-top: 13px;" alt="image">
                                                     </div>
