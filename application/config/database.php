@@ -76,9 +76,31 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'kintekindo.net',
-	'username' => 'u1064384_db_pcs',
+	'username' => 'u1064384_db_apcos_jmtm',
 	'password' => 'low***bet123#',
-	'database' => 'u1064384_db_pcs',
+	'database' => 'u1064384_db_apcos_jmtm',
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => TRUE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
+$db['db_kms'] = array(
+	'dsn'	=> '',
+	'hostname' => 'kintekindo.net',
+	'username' => 'u1064384_jmtm_kms_develop',
+	'password' => 'low***bet123#',
+	'database' => 'u1064384_jmtm_kms_develop',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
