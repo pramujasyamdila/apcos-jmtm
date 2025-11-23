@@ -47,18 +47,13 @@
                                         <span class="input-group-text border-dark">
                                             <i class="fa-solid fa-square-check fa-lg"></i>
                                         </span>
-                                        <input class="form-control border-dark" list="datalistOptions"
-                                            id="exampleDataList" placeholder="Ketikan No Kontrak / Tahun Anggaran..."
-                                            value="">
-                                        <datalist id="datalistOptions">
-                                            <option value="No. Kontrak 1 | Area | 2025">
-                                            <option value="No. Kontrak 2 | Area | 2025">
-                                            <option value="No. Kontrak 3 | Area | 2025">
-                                            <option value="No. Kontrak 4 | Area | 2025">
-                                            <option value="No. Kontrak 5 | Area | 2025">
-                                        </datalist>
-                                        <button class="btn btn-outline-info text-dark border-dark" type="button"
-                                            id="btn_fillter_prg">
+                                        <input class="form-control border-dark"
+                                            list="datalistOptions"
+                                            id="exampleDataList"
+                                            placeholder="Ketikan No Kontrak / Sub Area / Tahun Anggaran...">
+
+                                        <datalist id="datalistOptions"></datalist>
+                                        <button class="btn btn-outline-info text-dark border-dark" type="button" id="btn_fillter_prg">
                                             <i class="fa-solid fa-magnifying-glass fa-sm"></i>
                                             <strong>Filter Data</strong>
                                         </button>
@@ -97,70 +92,57 @@
                                                 <td scope="row" class="col-1 text-center">
                                                     <div class="card shadow-sm position-relative"
                                                         style="width: 150px; border-radius: 12px;">
+
                                                         <!-- Badge Harga -->
                                                         <span class="badge bg-primary position-absolute top-0 start-0"
-                                                            style="
-                                                                border-bottom-right-radius: 8px;
-                                                                font-size: 0.70rem;
-                                                                padding: 6px 10px;
-                                                                max-width: 100%;
-                                                                white-space: nowrap;
-                                                                overflow: hidden;
-                                                                text-overflow: ellipsis;
-                                                            ">
-                                                            <b>Rp 2.000.000.000</b>
+                                                            style="border-bottom-right-radius: 8px;font-size: 0.70rem;padding: 6px 10px;max-width: 100%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                                                            <b id="badge_harga"></b>
                                                         </span>
 
-
-                                                        <!-- Gambar -->
                                                         <img src="<?php echo base_url(); ?>/assets/brand/vendors-image.png"
                                                             class="card-img-top"
                                                             style="border-radius: 15px; padding-top: 13px;" alt="image">
                                                     </div>
                                                 </td>
+
                                                 <td scope="row" class="col-11 align-middle text-start">
                                                     <div class="table-responsive">
                                                         <table class="table table-sm table-borderless table-hover">
                                                             <tbody class="small">
                                                                 <tr>
-                                                                    <td scope="col" class="col-3 text-start fw-bold">
-                                                                        Nomor & Date Kontrak
-                                                                    </td>
-                                                                    <td scope="col" class="col-8 text-start text-muted">
+                                                                    <td class="col-3 text-start fw-bold">Nomor & Date Kontrak</td>
+                                                                    <td class="col-8 text-start text-muted">
                                                                         <i class="fa-solid fa-barcode"></i>
-                                                                        &nbsp;003/GM-OPS1/JMTM/XXI/2025 &nbsp;& &nbsp;<i
-                                                                            class="fa-solid fa-calendar-check"></i>
-                                                                        &nbsp;21 November 2025
+                                                                        &nbsp;<span id="label_no_kontrak"></span>
+                                                                        &nbsp;&nbsp;& <i class="fa-solid fa-calendar-check"></i>
+                                                                        &nbsp;<span id="label_tgl_kontrak"></span>
                                                                     </td>
                                                                 </tr>
+
                                                                 <tr>
-                                                                    <td scope="row" class="col-3 text-start fw-bold">
-                                                                        Nama Kontrak
-                                                                    </td>
-                                                                    <td scope="row" class="col-8 text-start text-muted"
-                                                                        colspan=3>
+                                                                    <td class="text-start fw-bold">Nama Kontrak</td>
+                                                                    <td class="text-start text-muted">
                                                                         <i class="fa-solid fa-pen-to-square"></i>
-                                                                        &nbsp;Kontrak Manajemen Pemenuhan Standar
-                                                                        Pelayanan Minimal di Bidang Pemeliharaan Jalan
-                                                                        Tol pada Ruas Jakarta-Cikampek
+                                                                        &nbsp;<span id="label_nama_kontrak"></span>
                                                                     </td>
                                                                 </tr>
+
                                                                 <tr>
-                                                                    <td scope="row" class="col-3 text-start fw-bold">
-                                                                        Tahun Anggaran & Periode Add
-                                                                    </td>
-                                                                    <td scope="row" class="col-8 text-start text-muted">
+                                                                    <td class="text-start fw-bold">Tahun Anggaran & Periode Add</td>
+                                                                    <td class="text-start text-muted">
                                                                         <i class="fa-solid fa-calendar-check"></i>
-                                                                        &nbsp;2025 &nbsp;& &nbsp;<i
-                                                                            class="fa-solid fa-list-ol"></i>
-                                                                        &nbsp;Adendum Ke-1
+                                                                        &nbsp;<span id="label_tahun_anggaran"></span>
+                                                                        &nbsp;&nbsp;& <i class="fa-solid fa-list-ol"></i>
+                                                                        &nbsp;<span id="label_adendum"></span>
                                                                     </td>
                                                                 </tr>
+
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </td>
                                             </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -176,8 +158,8 @@
                     </h6>
                     <h6 class="border-bottom border-white pb-2 mb-0"></h6>
                     <div class="table-responsive">
-                        <table
-                            class="table table-sm table-striped table-bordered align-middle border-dark example nowrap"
+                        <table id="mirrorTable"
+                            class="table table-sm table-striped table-bordered align-middle border-dark nowrap"
                             style="width:100%">
                             <thead class=" table-warning text-dark small fw-bold">
                                 <tr>
@@ -193,9 +175,7 @@
                                     <th scope="col" class="col-2 text-center">
                                         <select id="filterAddKategori"
                                             class="form-select form-select-sm text-center fw-bold">
-                                            <option value="Add I">Add I</option>
-                                            <option value="Add II">Add II</option>
-                                            <option value="Add III">Add III</option>
+                                            <option value="Add I">Add</option>
                                         </select>
                                     </th>
                                     <th scope="col" class="col-1 text-center align-middle">
@@ -204,7 +184,7 @@
                                 </tr>
                             </thead>
                             <tbody class="small">
-                                <tr>
+                                <!-- <tr>
                                     <td scope="row" class="col-1 text-end">
                                         1
                                     </td>
@@ -225,18 +205,15 @@
                                             <i class="fa-solid fa-square-plus"></i>
                                         </button>
                                     </td>
+                                </tr> -->
+                                </td>
                                 </tr>
 
-                            </tbody>
-                        </table>
-                    </div>
+                                <div class="card-footer">
+
+                                </div>
+                    </div><!-- ================== End Card Konten ==================== -->
+
                 </div>
-            </div><!-- ================== End Card Body Konten ==================== -->
-            <div class="card-footer">
-
+                <br>
             </div>
-        </div><!-- ================== End Card Konten ==================== -->
-
-    </div>
-    <br>
-</div>
