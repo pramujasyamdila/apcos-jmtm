@@ -1,0 +1,318 @@
+/* ============================================================
+   SAAS MODERN THEME UPGRADE (NO HTML CHANGES REQUIRED)
+============================================================ */
+
+:root {
+	--saas-bg: #f5f7fa;
+	--saas-card-bg: #ffffff;
+	--saas-text: #344054;
+	--saas-muted: #667085;
+	--saas-border: #e4e7ec;
+	--saas-radius: 14px;
+	--saas-primary: #4f46e5;
+}
+
+/* GLOBAL */
+body {
+	background: var(--saas-bg) !important;
+	font-family: "Inter", sans-serif !important;
+	color: var(--saas-text);
+}
+
+/* ============================================================
+   NAVBAR - SaaS White
+============================================================ */
+.navbar {
+	background: #ffffff !important;
+	height: 60px !important;
+	border-bottom: 1px solid var(--saas-border);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* ICON */
+.navbar i,
+.navbar img {
+	filter: none !important;
+}
+
+/* ============================================================
+   SIDEBAR - Modern SaaS
+============================================================ */
+#sidebar {
+	background: #ffffff !important;
+	border-right: 1px solid var(--saas-border);
+}
+
+#sidebar .nav-link {
+	color: var(--saas-text) !important;
+	border-radius: 10px;
+	padding: 12px 18px !important;
+	margin: 4px 10px;
+	font-weight: 500;
+	transition: 0.22s ease;
+}
+
+#sidebar .nav-link:hover {
+	background: #eef2ff !important;
+	color: var(--saas-primary) !important;
+}
+
+#sidebar .nav-link.active {
+	background: #e0e7ff !important;
+	color: var(--saas-primary) !important;
+	font-weight: 600 !important;
+}
+
+/* SUBMENU */
+.sidebar-submenu {
+	background: #f9fafb !important;
+	border-left: 2px solid var(--saas-primary);
+	margin-left: 20px;
+	border-radius: 8px;
+}
+
+.sidebar-submenu .nav-link {
+	font-size: 0.85rem !important;
+	padding-left: 35px !important;
+}
+
+/* SIDEBAR COLLAPSED FLOAT */
+#sidebar.collapsed .sidebar-submenu {
+	background: #ffffff !important;
+	border: 1px solid var(--saas-border);
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+/* SIDEBAR USER */
+.sidebar-user {
+	background: #ffffff !important;
+	border-top: 1px solid var(--saas-border);
+}
+
+.sidebar-user-btn span {
+	color: var(--saas-text) !important;
+}
+
+/* ============================================================
+   CONTENT AREA
+============================================================ */
+#content {
+	background: transparent !important;
+}
+
+/* PAGE TITLE */
+#content h3 {
+	font-weight: 700 !important;
+	color: var(--saas-text);
+}
+
+/* Weather & date */
+#weatherInfo,
+#dateTime {
+	color: var(--saas-muted) !important;
+}
+
+/* ============================================================
+   CARD STYLE — SaaS Edition
+============================================================ */
+.card {
+	border-radius: var(--saas-radius) !important;
+	background: var(--saas-card-bg) !important;
+	border: 1px solid var(--saas-border) !important;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+	transition: 0.2s ease;
+}
+
+.card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Remove old bootsrap dark backgrounds in stat cards */
+.bg-primary,
+.bg-success,
+.bg-info,
+.bg-danger {
+	background: linear-gradient(145deg, #ffffff, #f1f4ff) !important;
+	color: var(--saas-text) !important;
+}
+
+/* Text inside stat cards */
+.card h6 {
+	color: var(--saas-muted) !important;
+	font-size: 14px !important;
+}
+
+.card h2 {
+	color: var(--saas-text) !important;
+	font-weight: 700 !important;
+}
+
+/* Icons inside stat cards */
+.card-icon {
+	opacity: 0.25 !important;
+	color: var(--saas-primary) !important;
+}
+
+/* ============================================================
+   TABLE — SaaS Style
+============================================================ */
+.table {
+	border-color: var(--saas-border) !important;
+}
+
+.table thead {
+	background: #f0f2f5 !important;
+	border-bottom: 1px solid var(--saas-border) !important;
+}
+
+.table tbody tr:hover {
+	background: #f8f9fb !important;
+}
+
+/* TAG STATUS */
+.badge {
+	padding: 6px 12px !important;
+	border-radius: 50px !important;
+	font-weight: 500 !important;
+}
+
+/* ============================================================
+   DROPDOWN SaaS
+============================================================ */
+.user-dropdown,
+.notification-dropdown,
+.sidebar-user-dropdown {
+	border-radius: 12px !important;
+	border: 1px solid var(--saas-border);
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Items */
+.user-dropdown .item,
+.notification-dropdown .notif-item,
+.sidebar-user-dropdown .item {
+	color: var(--saas-text) !important;
+}
+
+.user-dropdown .item:hover,
+.notification-dropdown .notif-item:hover {
+	background: #f7f8fc !important;
+}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.content-footer {
+	background: #ffffff !important;
+	border-top: 1px solid var(--saas-border);
+}
+
+/* ================================================
+   FIX NAVBAR KONTRAS (karena navbar sekarang putih)
+=================================================== */
+
+/* Hapus efek navbar-dark */
+.navbar.navbar-dark {
+	color: var(--saas-text) !important;
+}
+
+/* Brand text */
+.navbar .navbar-brand {
+	color: var(--saas-text) !important;
+	font-weight: 600;
+}
+
+/* Toggle icon (burger) agar terlihat */
+#toggleSidebar i {
+	color: var(--saas-text) !important;
+}
+
+/* Notif bell icon */
+#notifBell {
+	color: var(--saas-text) !important;
+}
+
+/* Notification badge tetap merah */
+#notifBadge {
+	background: #ef4444 !important;
+}
+
+/* User photo border */
+#userPic {
+	border: 2px solid #e5e7eb;
+}
+
+/* ================================================
+   SIDEBAR USER SECTION FIX (BOTTOM USER PANEL)
+=================================================== */
+
+/* Background putih */
+.sidebar-user {
+	background: #ffffff !important;
+	border-top: 1px solid var(--saas-border) !important;
+}
+
+/* Username warna gelap */
+.sidebar-user-btn span.menu-text {
+	color: var(--saas-text) !important;
+}
+
+/* Icon chevron */
+.sidebar-user-btn .bi-chevron-up {
+	color: var(--saas-muted) !important;
+}
+
+/* Dropdown user (inside sidebar bottom) */
+.sidebar-user-dropdown {
+	background: #ffffff !important;
+	border: 1px solid var(--saas-border) !important;
+}
+
+.sidebar-user-dropdown .item {
+	background: #ffffff !important;
+	color: var(--saas-text) !important;
+	border-bottom: 1px solid #f1f1f1 !important;
+}
+
+.sidebar-user-dropdown .item:hover {
+	background: #eef2ff !important;
+}
+
+/* Fix icon di dropdown user sidebar */
+.sidebar-user-dropdown .item i {
+	color: var(--saas-primary) !important;
+}
+
+/* ================================================
+   SIDEBAR COLOR FIX FOR DARK ICONS
+=================================================== */
+#sidebar .nav-link i {
+	color: var(--saas-text) !important;
+}
+
+/* Chevron icon right */
+#sidebar .nav-link .bi-chevron-down {
+	color: var(--saas-muted) !important;
+}
+
+/* =============== Footer Alignment Fix =============== */
+.content-footer {
+	margin-left: 220px !important;
+	transition: margin-left 0.25s ease;
+}
+
+/* Saat sidebar collapsed */
+#content.full ~ .content-footer,
+#sidebar.collapsed ~ #content .content-footer {
+	margin-left: 65px !important;
+}
+/* ======================  
+   FIX CHART HEIGHT  
+====================== */
+
+.chart-container {
+	position: relative;
+	width: 100%;
+	height: 260px; /* FIX HEIGHT */
+}

@@ -1,0 +1,100 @@
+/* ---------------------------------------------------
+   ELEGANT DATATABLE APCoS STYLE
+--------------------------------------------------- */
+
+/* Table Wrapper */
+.dataTables_wrapper {
+	padding: 15px;
+	background: #ffffff;
+	border-radius: 12px;
+	border: 1px solid #e5e7eb;
+}
+
+/* Header Section (Search & Buttons) */
+.dataTables_wrapper .dt-buttons .btn {
+	border-radius: 8px !important;
+	padding: 6px 14px !important;
+	font-weight: 600;
+	border: none !important;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+	border-radius: 8px !important;
+	border: 1px solid #d1d5db !important;
+	padding: 6px 12px !important;
+	margin-left: 8px !important;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+	outline: none;
+	border-color: #0d6efd !important;
+	box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.2);
+}
+
+/* Table Head */
+table.dataTable thead th {
+	background: #fef3c7 !important; /* soft yellow */
+	color: #000;
+	font-weight: 700;
+	font-size: 0.85rem;
+	border-bottom: 2px solid #e5e7eb !important;
+	text-align: center;
+}
+
+/* Table Body Hover */
+table.dataTable tbody tr:hover {
+	background: #f3f4f6 !important; /* soft gray hover */
+}
+
+/* Body Text */
+table.dataTable tbody td {
+	font-size: 0.85rem;
+	padding: 10px 14px !important;
+	vertical-align: middle !important;
+}
+
+/* Border Style */
+table.dataTable {
+	border-radius: 12px !important;
+	overflow: hidden !important;
+}
+
+/* Pagination */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	border-radius: 6px !important;
+	padding: 6px 12px !important;
+	margin: 2px !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+	background: #0d6efd !important;
+	color: white !important;
+	border: none !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+	background: #2563eb !important;
+	color: white !important;
+}
+
+/* "No data available" */
+table.dataTable tbody tr td.dataTables_empty {
+	text-align: center !important;
+	font-style: italic;
+	color: #6b7280;
+	padding: 25px !important;
+}
+
+/* Column Visibility dropdown */
+.dt-button-collection .dt-button {
+	border-radius: 8px !important;
+	padding: 8px 12px !important;
+}
+.table.elegant {
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+table.dataTable thead th {
+	background: linear-gradient(to right, #fff7d6, #fde7b0) !important;
+}
