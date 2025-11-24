@@ -240,3 +240,33 @@
     </div>
     <br>
 </div>
+<!-- ===================== MODAL FULLSCREEN DETAIL ===================== -->
+<div class="modal fade" id="modalDetail" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Detail Kontrak</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <h5 class="fw-bold">Informasi Detail</h5>
+                <hr>
+
+                <!-- DI SINI MIN BISA MASUKKAN KONTEN APA SAJA -->
+                <div id="modalDetailContent">
+                    <p class="text-muted">Konten detail akan tampil di sini...</p>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- ===================== END MODAL FULLSCREEN ===================== -->

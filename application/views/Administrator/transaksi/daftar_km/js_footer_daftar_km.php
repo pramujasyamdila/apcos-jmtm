@@ -100,6 +100,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 aksiCell.appendChild(btnDetail);
                 aksiCell.appendChild(btnKembali);
 
+                // === FUNGSI: BUKA MODAL FULLSCREEN ===
+                btnDetail.addEventListener("click", function() {
+                    let modal = new bootstrap.Modal(document.getElementById(
+                        "modalDetail"));
+                    modal.show();
+                });
+
                 // === FUNGSI KEMBALI ===
                 btnKembali.addEventListener("click", function() {
 
