@@ -432,7 +432,7 @@
                                                                             <span class="input-group-text border-dark">
                                                                                 Pilih Kontrak / Add
                                                                             </span>
-                                                                            <select id="0"
+                                                                            <select id="add-kontrak"
                                                                                 class="form-select border-dark"
                                                                                 aria-label="Default select example">
                                                                                 <option selected disabled value="0">Open
@@ -514,6 +514,19 @@
                                                                 <tr>
                                                                     <th scope="col" class="text-center"
                                                                         style="width: 80px;">
+                                                                        <select id="0"
+                                                                            class="form-select form-select-sm border-dark">
+                                                                            <option selected disabled value="0">Open
+
+                                                                            </option>
+                                                                            <option value="1">Pra-Pengadaan</option>
+                                                                            <option value="2">Pengadaan</option>
+                                                                            <option value="3">Pelaksanaan</option>
+                                                                            <option value="3">Pekerjaan Selesai</option>
+                                                                        </select>
+                                                                    </th>
+                                                                    <th scope="col" class="text-center"
+                                                                        style="width: 80px;">
                                                                         <select id="1"
                                                                             class="form-select form-select-sm border-dark">
                                                                             <option selected disabled value="0">Open
@@ -556,7 +569,6 @@
                                                                         <select id="4"
                                                                             class="form-select form-select-sm border-dark">
                                                                             <option selected disabled value="0">Open
-
                                                                             </option>
                                                                             <option value="1">Pra-Pengadaan</option>
                                                                             <option value="2">Pengadaan</option>
@@ -639,18 +651,6 @@
                                                                     <th scope="col" class="text-center"
                                                                         style="width: 80px;">
                                                                         <select id="11"
-                                                                            class="form-select form-select-sm border-dark">
-                                                                            <option selected disabled value="0">Open
-                                                                            </option>
-                                                                            <option value="1">Pra-Pengadaan</option>
-                                                                            <option value="2">Pengadaan</option>
-                                                                            <option value="3">Pelaksanaan</option>
-                                                                            <option value="3">Pekerjaan Selesai</option>
-                                                                        </select>
-                                                                    </th>
-                                                                    <th scope="col" class="text-center"
-                                                                        style="width: 80px;">
-                                                                        <select id="12"
                                                                             class="form-select form-select-sm border-dark">
                                                                             <option selected disabled value="0">Open
                                                                             </option>
@@ -747,91 +747,91 @@
                                                                 <tr>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="1"
+                                                                        <input id="p-1"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="2"
+                                                                        <input id="p-2"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="3"
+                                                                        <input id="p-3"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="4"
+                                                                        <input id="p-4"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="5"
+                                                                        <input id="p-5"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="6"
+                                                                        <input id="p-6"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="7"
+                                                                        <input id="p-7"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="8"
+                                                                        <input id="p-8"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="9"
+                                                                        <input id="p-9"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="10"
+                                                                        <input id="p-10"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="11"
+                                                                        <input id="p-11"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="12"
+                                                                        <input id="p-12"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>
                                                                     </td>
                                                                     <td scope="row" class="text-end"
                                                                         style="width: 80px;">
-                                                                        <input id="total"
+                                                                        <input id="tp-otal"
                                                                             class="form-control form-control-sm text-end"
                                                                             type="text"
                                                                             style="background-color: #dee2e6;" readonly>

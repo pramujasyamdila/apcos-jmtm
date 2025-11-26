@@ -148,3 +148,326 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 </script>
+<!-- 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    const table = document.querySelector('#modalDetail table.table-sm.table-bordered.table-striped');
+    if (!table) return;
+
+    // =====================
+    // ELEMENT REFERENSI
+    // =====================
+    const monthSelects = table.querySelectorAll('thead tr:nth-child(2) select');
+    const rowNilai = table.querySelector('tbody tr:nth-of-type(1)');
+    const rowPersen = table.querySelector('tbody tr:nth-of-type(2)');
+
+    const nilaiInputs = rowNilai.querySelectorAll('td input');
+    const persenInputs = rowPersen.querySelectorAll('td input');
+
+    const totalInput = table.querySelector('tbody tr:nth-child(1) input#total');
+    const kontrakInput = document.querySelector('#jml_kontrak');
+
+    // =====================
+    // FORMAT KE ANGKA (IDR)
+    // =====================
+    function toNumberIDR(v) {
+        if (!v) return 0;
+
+        return parseFloat(
+            v.replace(/Rp/gi, "") // hapus Rp
+            .replace(/\s/g, "") // hapus spasi
+            .replace(/\./g, "") // hapus titik ribuan
+            .replace(",", ".") // koma → titik
+        ) || 0;
+    }
+
+    // =====================
+    // FORMAT ANGKA RIBUAN
+    // =====================
+    function formatNumber(val) {
+        if (val === "") return "";
+
+        // hapus pemisah titik
+        val = val.replace(/\./g, "");
+
+        let parts = val.split(",");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return parts.join(",");
+    }
+
+    // =====================
+    // HITUNG TOTAL
+    // =====================
+    function hitungTotal() {
+        let total = 0;
+
+        nilaiInputs.forEach(input => {
+            if (input.id === "total" || input.disabled || input.value === "") return;
+
+            let v = input.value.replace(/\./g, "").replace(",", ".");
+            total += parseFloat(v);
+        });
+
+        totalInput.value = total.toLocaleString("id-ID", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        });
+    }
+
+    // =====================
+    // HITUNG PERSENTASE PER KOLOM
+    // =====================
+    function hitungPersen(index) {
+        let nilai = toNumberIDR(nilaiInputs[index].value);
+        let kontrak = toNumberIDR(kontrakInput.value);
+
+        if (!nilai || !kontrak) {
+            persenInputs[index].value = "";
+            return;
+        }
+
+        let persen = (nilai / kontrak) * 100;
+
+        persenInputs[index].value = persen.toLocaleString("id-ID", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        console.log("index:", index,
+            "| nilai:", nilai,
+            "| kontrak:", kontrak,
+            "| persen:", persenInputs[index].value);
+    }
+
+    // =====================
+    // DISABLE SEMUA INPUT AWAL
+    // =====================
+    nilaiInputs.forEach(input => {
+        if (input.id !== "total") {
+            input.setAttribute("disabled", true);
+            input.style.backgroundColor = "#e9ecef";
+        }
+    });
+
+    // =====================
+    // SELECT → ENABLE / DISABLE INPUT
+    // =====================
+    monthSelects.forEach((selectEl, index) => {
+        selectEl.addEventListener("change", function() {
+            let inp = nilaiInputs[index];
+
+            if (this.value == "3") {
+                inp.removeAttribute("disabled");
+                inp.style.backgroundColor = "white";
+            } else {
+                inp.setAttribute("disabled", true);
+                inp.value = "";
+                inp.style.backgroundColor = "#e9ecef";
+                persenInputs[index].value = "";
+            }
+
+            hitungTotal();
+            hitungPersen(index);
+        });
+    });
+
+    // =====================
+    // INPUT NILAI → FORMAT RIBUAN + HITUNG TOTAL + HITUNG %
+    // =====================
+    nilaiInputs.forEach((input, index) => {
+
+        if (input.id === "total") return;
+
+        input.addEventListener("input", function() {
+
+            if (input.disabled) {
+                input.value = "";
+                return;
+            }
+
+            let val = input.value.replace(/[^0-9,]/g, "");
+
+            let parts = val.split(",");
+            if (parts.length > 2) val = parts[0] + "," + parts[1];
+
+            if (parts[1] && parts[1].length > 2) {
+                parts[1] = parts[1].substring(0, 2);
+                val = parts.join(",");
+            }
+
+            input.value = formatNumber(val);
+
+            hitungTotal();
+            hitungPersen(index);
+        });
+    });
+
+});
+</script> -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    const table = document.querySelector('#modalDetail table.table-sm.table-bordered.table-striped');
+    if (!table) return;
+
+    // =====================
+    // ELEMENT UTAMA
+    // =====================
+    const monthSelects = table.querySelectorAll('thead tr:nth-child(2) select');
+    const rowNilai = table.querySelector('tbody tr:nth-of-type(1)');
+    const rowPersen = table.querySelector('tbody tr:nth-of-type(2)');
+
+    const nilaiInputs = rowNilai.querySelectorAll('td input');
+    const persenInputs = rowPersen.querySelectorAll('td input');
+    const totalInput = table.querySelector('tbody tr:nth-child(1) input#total');
+
+    const kontrakInput = document.querySelector('#jml_kontrak');
+
+    // ============================
+    // KONVERSI FORMAT INDONESIA → NUMBER
+    // ============================
+    function toNumberIDR(v) {
+        if (!v) return 0;
+
+        return parseFloat(
+            v.replace(/Rp/gi, "") // buang Rp
+            .replace(/\s/g, "") // buang spasi
+            .replace(/\./g, "") // buang ribuan
+            .replace(",", ".") // koma → titik
+        ) || 0;
+    }
+
+    // ============================
+    // FORMAT ANGKA → 1.200,55
+    // ============================
+    function formatNumber(val) {
+        if (val === "") return "";
+
+        val = val.replace(/\./g, "");
+        let parts = val.split(",");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return parts.join(",");
+    }
+
+    // ============================
+    // HITUNG TOTAL BARIS 1
+    // ============================
+    function hitungTotal() {
+        let total = 0;
+
+        nilaiInputs.forEach(input => {
+            if (input.id === "total" || input.disabled || input.value === "") return;
+
+            let v = input.value.replace(/\./g, "").replace(",", ".");
+            total += parseFloat(v);
+        });
+
+        totalInput.value = total.toLocaleString("id-ID", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        });
+    }
+
+    // ============================
+    // HITUNG PERSENTASE (SATUAN JUTA)
+    // ============================
+    function hitungPersen(i) {
+        let nilaiJuta = toNumberIDR(nilaiInputs[i].value); // contoh: 5.000,50 → 5000.50
+        let kontrak = toNumberIDR(kontrakInput.value); // Rp 900.000.000 → 900000000
+
+        if (!nilaiJuta || !kontrak) {
+            persenInputs[i].value = "";
+            return;
+        }
+
+        // Konversi JUTA → RUPIAH
+        let nilaiRupiah = nilaiJuta * 1000000;
+
+        // Rumus persen
+        let persen = (nilaiRupiah / kontrak) * 100;
+
+        persenInputs[i].value = persen.toLocaleString("id-ID", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        console.log(
+            "=== HITUNG PERSEN ===",
+            "\nIndex:", i,
+            "\nInput juta:", nilaiJuta,
+            "\nNilai rupiah:", nilaiRupiah,
+            "\nKontrak:", kontrak,
+            "\nPersen:", persenInputs[i].value
+        );
+    }
+
+    // ============================
+    // DISABLE SEMUA INPUT AWAL
+    // ============================
+    nilaiInputs.forEach(input => {
+        if (input.id !== "total") {
+            input.setAttribute("disabled", true);
+            input.style.backgroundColor = "#e9ecef";
+            input.value = "";
+        }
+    });
+
+    // ============================
+    // SELECT → ENABLE / DISABLE INPUT
+    // ============================
+    monthSelects.forEach((selectEl, index) => {
+        selectEl.addEventListener("change", function() {
+
+            let inp = nilaiInputs[index];
+
+            if (this.value == "3") {
+                inp.removeAttribute("disabled");
+                inp.style.backgroundColor = "white";
+            } else {
+                inp.setAttribute("disabled", true);
+                inp.style.backgroundColor = "#e9ecef";
+                inp.value = "";
+                persenInputs[index].value = "";
+            }
+
+            hitungTotal();
+            hitungPersen(index);
+        });
+    });
+
+    // ============================
+    // INPUT NILAI (format jutaan)
+    // ============================
+    nilaiInputs.forEach((input, index) => {
+
+        if (input.id === "total") return;
+
+        input.addEventListener("input", function() {
+
+            if (input.disabled) {
+                input.value = "";
+                return;
+            }
+
+            // izinkan angka + koma
+            let val = input.value.replace(/[^0-9,]/g, "");
+
+            let parts = val.split(",");
+            if (parts.length > 2) val = parts[0] + "," + parts[1];
+
+            // max 2 digit di belakang koma
+            if (parts[1] && parts[1].length > 2) {
+                parts[1] = parts[1].substring(0, 2);
+                val = parts.join(",");
+            }
+
+            input.value = formatNumber(val);
+
+            hitungTotal();
+            hitungPersen(index);
+        });
+    });
+
+});
+</script>
