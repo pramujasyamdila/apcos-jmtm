@@ -246,8 +246,11 @@ class Md_daftar_km extends CI_Model
 
             // We'll do a deterministic traversal: base rows in order, then depth-first children.
             // But to keep parent relation, we will manually push nodes while tracking parent UIDs.
-            $push_node = function ($row, $kategori, $nomor, $name, $awal_val, $add_val, $level, $id_field, $id_value, $parentUID) use (&$tree, $make_uid) {
+            $push_node = function ($row, $kategori, $nomor, $name, $awal_val, $add_val, $level, $id_field, $id_value, $parentUID)
+            use (&$tree, $make_uid) {
+
                 $uid = $make_uid($kategori, $nomor);
+
                 $entry = [
                     "unique_id" => $uid,
                     "parent_uid" => $parentUID,
@@ -256,13 +259,45 @@ class Md_daftar_km extends CI_Model
                     "nama_program" => $name,
                     "awal" => (float)$awal_val,
                     "add_val" => (float)$add_val,
-                    "add1" => (float)$add_val,
                     "level" => $level,
                     "id_kontrak" => isset($row->id_kontrak) ? $row->id_kontrak : null,
                 ];
-                if ($id_field && $id_value) $entry[$id_field] = $id_value;
+
+                // simpan original ID (misal id_capex_detail, id_opex, dst)
+                if ($id_field && $id_value) {
+                    $entry[$id_field] = $id_value;
+                }
+
+                // =========================================
+                // 🔥 LOOP TAMBAHKAN ADDENDUM add1..add25
+                // =========================================
+                for ($i = 1; $i <= 25; $i++) {
+
+                    // bentuk key berdasarkan pola DB kamu:
+                    // nilai_capex_add_I / nilai_detail_capex_add_IV / dst.
+                    $roman = $this->roman($i);
+                    $baseName = strtolower($kategori);
+
+                    // GENERATE kemungkinan nama field
+                    $possibleFields = [
+                        "nilai_{$baseName}_add_{$roman}",
+                        "nilai_{$baseName}_detail_{$roman}",
+                        "nilai_{$baseName}_detail_1_add_{$roman}",
+                        "nilai_detail_{$baseName}_add_{$roman}",
+                        "add_" . $roman,   // fallback universal
+                    ];
+
+                    foreach ($possibleFields as $f) {
+                        if (property_exists($row, $f) && floatval($row->$f) > 0) {
+                            $entry["add{$i}"] = floatval($row->$f);
+                            break;
+                        }
+                    }
+                }
+
                 $tree[] = $entry;
             };
+
 
             // start: traverse each base row
             foreach ($baseRows as $b) {
@@ -616,5 +651,49 @@ class Md_daftar_km extends CI_Model
             ->order_by('no_adendum', 'ASC')
             ->get('table_adendum')
             ->result();
+    }
+
+    public function insert_main($data)
+    {
+        $this->db->insert('tbl_daftar_km', $data);
+        return $this->db->insert_id();
+    }
+
+    public function insert_detail($data)
+    {
+        $this->db->insert('tbl_detail_daftar_km', $data);
+        return $this->db->insert_id();
+    }
+
+    public function insert_rencana($data)
+    {
+        return $this->db->insert('tbl_detail_rencana_km', $data);
+    }
+
+    public function generateKode($table, $field, $prefix)
+    {
+        $this->db->select($field);
+        $this->db->like($field, $prefix, 'after');
+        $this->db->order_by($field, 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get($table);
+
+        if ($query->num_rows() > 0) {
+            $last = $query->row()->$field;
+            $num = (int) substr($last, strlen($prefix)) + 1;
+        } else {
+            $num = 1;
+        }
+
+        return $prefix . str_pad($num, 3, '0', STR_PAD_LEFT);
+    }
+
+    public function cekSudahAda($id_kontrak, $level_daftar_km)
+    {
+        return $this->db
+            ->where('id_kontrak', $id_kontrak)
+            ->where('level_daftar_km', $level_daftar_km) // ⬅ tambahan cek level
+            ->from('tbl_daftar_km')
+            ->count_all_results();
     }
 }

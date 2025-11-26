@@ -236,28 +236,6 @@
                                     </tr>
                                 </thead>
                                 <tbody class="small">
-                                    <!-- <tr>
-                                        <td scope="row" class="col-1 text-end">
-                                            1
-                                        </td>
-                                        <td scope="row" class="col-6 text-start text-truncate" style="max-width: 250px;">
-                                            Kontrak Manajemen Pemenuhan Standar Pelayanan Minimal di Bidang Pemeliharaan
-                                            Jalan Tol pada Ruas Jakarta-Cikampek
-                                        </td>
-                                        <td scope="row" class="col-2 text-end">
-                                            Rp 2.000.000.000
-                                        </td>
-                                        <td scope="row" class="col-2 text-end">
-                                            Rp 1.000.000.000
-                                        </td>
-                                        <td scope="row" class="col-1 text-center">
-                                            <button id="btnTambahAksi" type="button" class="btn btn-secondary btn-sm"
-                                                data-bs-toggle="tooltip" data-bs-placement="right"
-                                                title="timbulkan aksi tambahan">
-                                                <i class="fa-solid fa-square-plus"></i>
-                                            </button>
-                                        </td>
-                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
@@ -318,6 +296,18 @@
                                                     data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
                                                         <div class="table-responsive">
+
+                                                            <form id="formDaftarKM">
+                                                                <input type="hidden" id="input_id_kontrak" name="id_kontrak">
+                                                                <input type="hidden" id="input_nama_kontrak" name="nama_kontrak">
+                                                                <input type="hidden" id="input_nomor_kontrak" name="nomor_kontrak">
+                                                                <input type="hidden" id="input_tanggal_kontrak" name="tanggal_kontrak">
+                                                                <input type="hidden" id="input_tahun_anggaran" name="tahun_anggaran">
+                                                                <input type="hidden" id="input_add_terupdate" name="add_terupdate">
+                                                                <input type="hidden" id="input_nilai_addendum_terupdate" name="nilai_addendum_terupdate">
+                                                                <input type="hidden" id="input_level_daftar_km" name="level_daftar_km">
+                                                                <input type="hidden" id="nama_program" name="nama_program">
+                                                            </form>
                                                             <table
                                                                 class="table table-sm table-bordered align-middle border-dark">
                                                                 <thead class="table-secondary text-white">

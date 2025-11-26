@@ -152,6 +152,13 @@
                                 $("#label_tgl_kontrak").text(formatTanggalIndo(tanggal_terupdate));
                                 $("#label_nama_kontrak").text(data.nama_kontrak);
                                 $("#label_tahun_anggaran").text(data.tahun_anggaran);
+                                $("#input_id_kontrak").val(data.id_kontrak);
+                                $("#input_nomor_kontrak").val(data.no_kontrak);
+                                $("#input_nama_kontrak").val(data.nama_kontrak);
+                                $("#input_tanggal_kontrak").val(formatTanggalIndo(tanggal_terupdate));
+                                $("#input_tahun_anggaran").val(data.tahun_anggaran);
+                                $("#input_add_terupdate").val(add_ke === 0 ? "Kontrak Awal" : "Addendum " + add_ke);
+                                $("#input_nilai_addendum_terupdate").val(total);
 
                                 $("#label_adendum").text(
                                     add_ke === 0 ? "Kontrak Awal" : "Adendum Ke-" + add_ke + " (Terupdate)"
@@ -189,15 +196,20 @@
                                 });
 
 
-                                // === DATATABLE MIRROR ===
+                                // destroy dulu sebelum init ulang
+                                if ($.fn.DataTable.isDataTable('#mirrorTable')) {
+                                    $('#mirrorTable').DataTable().clear().destroy();
+                                }
+
                                 let mirrorTable = $('#mirrorTable').DataTable({
                                     processing: true,
                                     serverSide: true,
                                     lengthChange: false,
-                                    ordering: false,
+                                    ordering: true,
                                     responsive: false,
                                     bDestroy: true,
                                     buttons: ['print', 'pdf', 'colvis'],
+
                                     ajax: {
                                         url: "<?= base_url('administrator/transaksi/daftar_km/ctrl_daftar_km/get_hirarki_kontrak/'); ?>" +
                                             data.id_kontrak + "?add_ke=1",
@@ -205,32 +217,34 @@
                                     },
 
                                     columnDefs: [{
-                                        type: "dotnum",
-                                        targets: 0
-                                    }],
+                                            targets: 0,
+                                            className: 'text-center fw-bold'
+                                        },
+                                        {
+                                            targets: 4,
+                                            orderable: false
+                                        } // aksi tidak sort
+                                    ],
 
                                     columns: [{
                                             data: "nomor"
                                         },
-
                                         {
                                             data: "nama_program",
                                             render: function(data) {
                                                 if (!data) data = "-";
                                                 return `
-                                                <span class="nama-ellipsis"
-                                                    style="display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"
-                                                    data-bs-toggle="tooltip" title="${data}">
-                                                    ${data}
-                                                </span>`;
+                    <span class="nama-ellipsis"
+                        style="display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"
+                        data-bs-toggle="tooltip" title="${data}">
+                        ${data}
+                    </span>`;
                                             }
                                         },
-
                                         {
                                             data: "awal",
                                             render: $.fn.dataTable.render.number('.', ',', 2, '')
                                         },
-
                                         {
                                             data: "add_val",
                                             render: $.fn.dataTable.render.number('.', ',', 2, '')
@@ -240,15 +254,15 @@
                                             data: "level",
                                             render: function(data, type, row) {
                                                 return `
-                                                <div class="d-flex justify-content-center">
-                                                    <button type="button" class="btn btn-secondary btn-sm btnTambahAksi"
-                                                        data-id-kontrak="${row.id_kontrak}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="right"
-                                                        title="Timbulkan aksi tambahan"
-                                                        style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;">
-                                                        <i class="fa-solid fa-square-plus"></i>
-                                                    </button>
-                                                </div>`;
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary btn-sm btnTambahAksi"
+                        data-id-kontrak="${row.id_kontrak ?? ''}"
+                        data-bs-toggle="tooltip" data-bs-placement="right"
+                        title="Timbulkan aksi tambahan"
+                        style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;">
+                        <i class="fa-solid fa-square-plus"></i>
+                    </button>
+                </div>`;
                                             }
                                         }
                                     ],
@@ -259,16 +273,24 @@
                                     ],
 
                                     initComplete: function() {
-
                                         this.api().buttons().container()
                                             .appendTo($('.col-md-6:eq(0)', this.api().table().container()));
 
-                                        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-                                        tooltipTriggerList.map(function(el) {
-                                            return new bootstrap.Tooltip(el);
-                                        });
+                                        const tooltipTriggerList = [].slice.call(
+                                            document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                                        );
+                                        tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
                                     }
                                 });
+
+                                // re-init tooltip setiap redraw
+                                mirrorTable.on('draw.dt', function() {
+                                    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+                                        new bootstrap.Tooltip(el);
+                                    });
+                                });
+
+
 
                                 // ==========================
                                 // EVENT UNTUK TOMBOL DINAMIS
@@ -386,23 +408,151 @@
                                 // EVENT: Klik tombol DETAIL
                                 // (dibuat terpisah biar bersih & aman untuk DataTables)
                                 // =====================================================
+
+                                let detailAddendumFinal = []; // global
+
                                 $(document).on("click", ".btnDetailAksi", function() {
 
-                                    const idKontrak = this.dataset.idKontrak;
+                                    const table = $('#mirrorTable').DataTable();
+                                    const rowData = table.row($(this).closest("tr")).data();
 
-                                    if (!idKontrak) {
-                                        Swal.fire("Error", "ID Kontrak tidak ditemukan!", "error");
+                                    if (!rowData) {
+                                        Swal.fire("Error", "Data tidak ditemukan!", "error");
                                         return;
                                     }
 
-                                    // 🔥 buka halaman detail baru
-                                    $('#modalDetail').modal('show');
-                                    // const url = "<?= base_url('administrator/transaksi/daftar_km/detail_aksi/') ?>" + idKontrak;
+                                    function formatRupiah(value) {
+                                        return new Intl.NumberFormat("id-ID", {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        }).format(Number(value) || 0);
+                                    }
 
-                                    // window.open(url, "_blank"); // buka tab baru
+                                    // =============================
+                                    // SET FORM INPUT OTOMATIS
+                                    // =============================
+                                    $("#input_level_daftar_km").val(rowData.nomor ?? 0);
+                                    $("#nama_program").val(rowData.nama_program ?? "-");
+
+
+                                    // =============================
+                                    // LOOPING DATA ADDENDUM
+                                    // =============================
+                                    let nomorRoman = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+                                    let listAdd = [];
+
+                                    Object.keys(rowData).forEach(key => {
+                                        let match = key.match(/^add(\d+)$/);
+                                        if (match) {
+                                            let no = parseInt(match[1]);
+                                            let nilai = Number(rowData[key]) || 0;
+
+                                            if (nilai > 0) listAdd.push({
+                                                no,
+                                                romawi: nomorRoman[no] ?? no,
+                                                nilai
+                                            });
+                                        }
+                                    });
+
+                                    // ⬅⬅ Masukkan KONTRAK AWAL di urutan pertama
+                                    listAdd.unshift({
+                                        no: 0,
+                                        romawi: "",
+                                        nilai: Number(rowData.awal) || 0
+                                    });
+
+                                    listAdd.sort((a, b) => a.no - b.no);
+
+                                    detailAddendumFinal = listAdd; // ⬅⬅ simpan untuk tombol Simpan nanti
+
+
+                                    // =============================
+                                    // TAMPILKAN DI TABEL MODAL
+                                    // =============================
+                                    let htmlAdd = `
+        <tr class="table-warning fw-bold">
+            <td>Kontrak Awal</td>
+            <td>${formatRupiah(rowData.awal)}</td>
+        </tr>
+    `;
+
+                                    listAdd.forEach(item => {
+                                        if (item.no > 0) {
+                                            htmlAdd += `
+                <tr>
+                    <td>Add ${item.romawi}</td>
+                    <td>${formatRupiah(item.nilai)}</td>
+                </tr>
+            `;
+                                        }
+                                    });
+
+                                    $("#detail_add_loop").html(htmlAdd);
+
+                                    $("#modalDetail").modal("show");
+
+                                    let formData = {};
+
+                                    $("form#formDaftarKM input[name]").each(function() {
+                                        formData[$(this).attr("name")] = $(this).val();
+                                    });
+
+                                    formData.detail_addendum = detailAddendumFinal; // pakai hasil klik detail
+
+                                    console.log("FINAL DATA:", formData);
+
+                                    Swal.fire({
+                                        title: "Generate Data...",
+                                        html: "Mohon tunggu sebentar...",
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false,
+                                        didOpen: () => {
+                                            Swal.showLoading();
+                                        }
+                                    });
+
+                                    $.ajax({
+                                        url: "<?= base_url('administrator/transaksi/daftar_km/ctrl_daftar_km/save_daftar_km'); ?>",
+                                        type: "POST",
+                                        data: JSON.stringify(formData),
+                                        contentType: "application/json",
+                                        dataType: "json",
+                                        success: function(res) {
+
+
+
+                                            // kalau data sudah pernah dibuat → JANGAN munculkan loading
+                                            if (res.status === "exist") {
+                                                Swal.close();
+                                                return;
+                                            }
+
+                                            Swal.close(); // tutup loading
+
+                                            Swal.fire({
+                                                icon: res.status ? "success" : "warning",
+                                                title: res.status ? "Berhasil!" : "Peringatan!",
+                                                text: res.msg,
+                                                timer: 1000,
+                                                showConfirmButton: false
+                                            });
+
+                                        },
+                                        error: function() {
+
+                                            Swal.close();
+
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "Gagal!",
+                                                text: "Terjadi kesalahan saat menyimpan data!",
+                                                timer: 2500,
+                                                showConfirmButton: false
+                                            });
+                                        }
+                                    });
                                 });
-
-
 
                                 // === FILTER ADENDUM ===
                                 $("#filterAddKategori").on("change", function() {

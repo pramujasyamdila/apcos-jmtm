@@ -87,4 +87,76 @@ class ctrl_daftar_km extends CI_Controller
 		$data = $this->Md_daftar_km->get_adendum_by_kontrak($id_kontrak);
 		echo json_encode($data);
 	}
+
+	public function save_daftar_km()
+	{
+		$post = json_decode($this->input->raw_input_stream, true);
+
+		if (!$post || !$post['id_kontrak']) {
+			echo json_encode(["status" => false, "msg" => "Data tidak lengkap"]);
+			return;
+		}
+
+		// === CEK SUDAH ADA ===
+		if ($this->Md_daftar_km->cekSudahAda($post['id_kontrak'], $post['level_daftar_km']) > 0) {
+
+			echo json_encode([
+				"status" => "exist",
+				"msg" => "Data untuk Level KM ini sudah pernah disimpan sebelumnya."
+			]);
+			return;
+		}
+
+		// === Generate kode utama ===
+		$kode_daftar_km = $this->Md_daftar_km->generateKode("tbl_daftar_km", "kode_daftar_km", "KM-");
+
+		// INSERT MASTER
+		$this->Md_daftar_km->insert_main([
+			'kode_daftar_km' => $kode_daftar_km,
+			'id_kontrak' => $post['id_kontrak'],
+			'nomor_kontrak' => $post['nomor_kontrak'],
+			'nama_kontrak' => $post['nama_kontrak'] ?? null,
+			'tanggal_kontrak' => $post['tanggal_kontrak'],
+			'tahun_anggaran' => $post['tahun_anggaran'],
+			'add_terupdate' => $post['add_terupdate'],
+			'nilai_addendum_terupdate' => $post['nilai_addendum_terupdate'],
+			'level_daftar_km' => $post['level_daftar_km'],
+			'nama_program_daftar_km' => $post['nama_program'],
+		]);
+
+		// === LOOP DETAIL ADDENDUM ===
+		foreach ($post['detail_addendum'] as $add) {
+
+			$kode_detail = $this->Md_daftar_km->generateKode("tbl_detail_daftar_km", "kode_detail_daftar_km", "KD-");
+
+			$id_detail = $this->Md_daftar_km->insert_detail([
+				'kode_detail_daftar_km' => $kode_detail,
+				'kode_daftar_km' => $kode_daftar_km,
+				'level' => $post['level_daftar_km'],
+				'nama_program' => $post['nama_program'],
+				'keterangan_kontrak' => ($add['no'] == 0 ? "Kontrak Awal" : "Addendum " . $add['romawi']),
+				'nilai_proyek' => $add['nilai']
+			]);
+
+			// Insert bulan
+			for ($bulan = 1; $bulan <= 12; $bulan++) {
+
+				$kode_rencana = $this->Md_daftar_km->generateKode(
+					"tbl_detail_rencana_km",
+					"kode_detail_rencana_km",
+					"RN-"
+				);
+
+				$this->Md_daftar_km->insert_rencana([
+					'kode_detail_rencana_km' => $kode_rencana,
+					'kode_detail_daftar_km' => $kode_detail,
+					'bulan' => $bulan,
+				]);
+			}
+		}
+
+
+
+		echo json_encode(["status" => true, "msg" => "Data tersimpan!", "kode" => $kode_daftar_km]);
+	}
 }
