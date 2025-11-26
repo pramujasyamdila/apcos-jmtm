@@ -396,9 +396,10 @@
                                     }
 
                                     // 🔥 buka halaman detail baru
-                                    const url = "<?= base_url('administrator/transaksi/daftar_km/detail_aksi/') ?>" + idKontrak;
+                                    $('#modalDetail').modal('show');
+                                    // const url = "<?= base_url('administrator/transaksi/daftar_km/detail_aksi/') ?>" + idKontrak;
 
-                                    window.open(url, "_blank"); // buka tab baru
+                                    // window.open(url, "_blank"); // buka tab baru
                                 });
 
 
