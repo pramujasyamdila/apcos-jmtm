@@ -32,15 +32,15 @@
     <link href="<?php echo base_url(); ?>/assets/Landing-home/css/main.css" rel="stylesheet">
 
     <style>
-    #hero {
-        background-image: url('<?php echo base_url(); ?>/assets/Landing-home/img/gedungjmtm1.png');
-        /* Ganti path-nya */
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        min-height: 75vh;
-        /* Contoh: Setinggi layar */
-    }
+        #hero {
+            background-image: url('<?php echo base_url(); ?>/assets/Landing-home/img/gedungjmtm1.png');
+            /* Ganti path-nya */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 75vh;
+            /* Contoh: Setinggi layar */
+        }
     </style>
 
 </head>

@@ -52,18 +52,30 @@ class ctrl_daftar_km extends CI_Controller
 		$draw   = intval($this->input->get("draw"));
 		$start  = intval($this->input->get("start"));
 		$length = intval($this->input->get("length"));
+		$search = $this->input->get('search')['value'] ?? '';
 
-		// ambil semua data tree (tanpa paging)
+		// ambil semua data tree
 		$allData = $this->Md_daftar_km->generate_tree_fast($id_kontrak, $add_ke);
-		$total   = count($allData);
+
+		// FILTER DATA (biar search DataTables bekerja)
+		if (!empty($search)) {
+			$allData = array_filter($allData, function ($row) use ($search) {
+				$search = strtolower($search);
+				return (isset($row['nama_program']) && strpos(strtolower($row['nama_program']), $search) !== false) ||
+					(isset($row['awal']) && strpos(strtolower((string)$row['awal']), $search) !== false) ||
+					(isset($row['add_val']) && strpos(strtolower((string)$row['add_val']), $search) !== false);
+			});
+		}
+
+		$totalFiltered = count($allData);
 
 		// paging manual
-		$pagedData = array_slice($allData, $start, $length);
+		$pagedData = array_slice(array_values($allData), $start, $length);
 
 		echo json_encode([
 			"draw" => $draw,
-			"recordsTotal" => $total,
-			"recordsFiltered" => $total,
+			"recordsTotal" => $totalFiltered,
+			"recordsFiltered" => $totalFiltered,
 			"data" => $pagedData
 		]);
 	}

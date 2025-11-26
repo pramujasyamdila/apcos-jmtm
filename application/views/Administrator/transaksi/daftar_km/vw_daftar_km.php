@@ -112,40 +112,89 @@
                                     Informasi Data Kontrak Manajemen Sistem Ter-Filter
                                 </button>
                             </h2>
+
                             <div id="collapseOne" class="accordion-collapse collapse show"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="table-responsive">
-                                        <table class="table table-sm table-borderless table-hover">
-                                            <tbody class="small">
+                                        <table class="table table-sm table-bordered align-middle border-dark">
+                                            <thead class="table-secondary text-white">
                                                 <tr>
-                                                    <td class="col-3 text-start fw-bold">Nomor & Date Kontrak</td>
-                                                    <td class="col-8 text-start text-muted">
-                                                        <i class="fa-solid fa-barcode"></i>
-                                                        &nbsp;<span id="label_no_kontrak"></span>
-                                                        &nbsp;&nbsp;& <i class="fa-solid fa-calendar-check"></i>
-                                                        &nbsp;<span id="label_tgl_kontrak"></span>
+                                                    <th scope="col" class="col-1 text-center">
+                                                        <small>Nilai Kontrak / Add</small>
+                                                    </th>
+                                                    <th scope="col" class="col-11 text-center">
+                                                        <small>Keterangan Kontrak</small>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td scope="row" class="col-1 text-center">
+                                                        <div class="card shadow-sm position-relative"
+                                                            style="width: 150px; border-radius: 12px;">
+                                                            <!-- Badge Harga -->
+                                                            <span class="badge bg-primary position-absolute top-0 start-0"
+                                                                style="
+                                                                border-bottom-right-radius: 8px;
+                                                                font-size: 0.70rem;
+                                                                padding: 6px 10px;
+                                                                max-width: 100%;
+                                                                white-space: nowrap;
+                                                                overflow: hidden;
+                                                                text-overflow: ellipsis;
+                                                            ">
+                                                                <b><span id="badge_harga"></span></b>
+                                                            </span>
+
+
+                                                            <!-- Gambar -->
+                                                            <img src="<?php echo base_url(); ?>/assets/brand/vendors-image.png"
+                                                                class="card-img-top"
+                                                                style="border-radius: 15px; padding-top: 13px;" alt="image">
+                                                        </div>
+                                                    </td>
+                                                    <td scope="row" class="col-11 align-middle text-start">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-sm table-borderless table-hover">
+                                                                <tbody class="small">
+                                                                    <tr>
+                                                                        <td scope="col" class="col-3 text-start fw-bold">
+                                                                            Nomor & Date Kontrak
+                                                                        </td>
+                                                                        <td scope="col" class="col-8 text-start text-muted">
+                                                                            <i class="fa-solid fa-barcode"></i>
+                                                                            &nbsp;<span id="label_no_kontrak"></span> &nbsp;& &nbsp;<i
+                                                                                class="fa-solid fa-calendar-check"></i>
+                                                                            &nbsp;<span id="label_tgl_kontrak"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td scope="row" class="col-3 text-start fw-bold">
+                                                                            Nama Kontrak
+                                                                        </td>
+                                                                        <td scope="row" class="col-8 text-start text-muted"
+                                                                            colspan=3>
+                                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                                            &nbsp;<span id="label_nama_kontrak"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td scope="row" class="col-3 text-start fw-bold">
+                                                                            Tahun Anggaran & Periode Add
+                                                                        </td>
+                                                                        <td scope="row" class="col-8 text-start text-muted">
+                                                                            <i class="fa-solid fa-calendar-check"></i>
+                                                                            &nbsp;<span id="label_tahun_anggaran"></span>
+                                                                            &nbsp;&nbsp;& <i class="fa-solid fa-list-ol"></i>
+                                                                            &nbsp;<span id="label_adendum"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </td>
                                                 </tr>
-
-                                                <tr>
-                                                    <td class="text-start fw-bold">Nama Kontrak</td>
-                                                    <td class="text-start text-muted">
-                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                        &nbsp;<span id="label_nama_kontrak"></span>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="text-start fw-bold">Tahun Anggaran & Periode Add</td>
-                                                    <td class="text-start text-muted">
-                                                        <i class="fa-solid fa-calendar-check"></i>
-                                                        &nbsp;<span id="label_tahun_anggaran"></span>
-                                                        &nbsp;&nbsp;& <i class="fa-solid fa-list-ol"></i>
-                                                        &nbsp;<span id="label_adendum"></span>
-                                                    </td>
-                                                </tr>
-
                                             </tbody>
                                         </table>
                                     </div>
