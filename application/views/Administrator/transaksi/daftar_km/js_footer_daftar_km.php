@@ -35,7 +35,7 @@
 <script src="<?= base_url(); ?>assets/template-custom/js/sweetalert2@11.js"></script>
 
 
-<!-- <script>
+<script>
     document.addEventListener("DOMContentLoaded", function() {
 
         // Tooltip
@@ -147,7 +147,8 @@
         });
 
     });
-</script> -->
+</script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -309,6 +310,99 @@
 
                 hitungTotal();
                 hitungPersen(index);
+            });
+        });
+
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const table = document.querySelector('#modalDetail table.table-sm.table-bordered.table-striped');
+        if (!table) return;
+
+        const monthSelects = table.querySelectorAll('thead tr:nth-child(2) select');
+        const rowNilai = table.querySelector('tbody tr:nth-of-type(1)');
+        const rowPersen = table.querySelector('tbody tr:nth-of-type(2)');
+
+        const nilaiTDs = rowNilai.querySelectorAll('td');
+        const persenTDs = rowPersen.querySelectorAll('td');
+
+        const nilaiInputs = rowNilai.querySelectorAll('input');
+
+        // ============================
+        // FUNGSI MERGE
+        // ============================
+        function mergePraPengadaan() {
+
+            // reset semua kolom agar kembali normal
+            nilaiTDs.forEach(td => {
+                td.style.display = "";
+                td.removeAttribute("colspan");
+            });
+
+            persenTDs.forEach(td => {
+                td.style.display = "";
+                td.removeAttribute("colspan");
+            });
+
+            let start = -1; // awal blok pra-pengadaan
+            let count = 0; // total kolom beruntun
+
+            monthSelects.forEach((sel, idx) => {
+
+                if (sel.value == "1") {
+                    // mulai blok
+                    if (start === -1) start = idx;
+                    count++;
+                } else {
+                    // selesai blok
+                    if (count >= 2) {
+                        applyMerge(start, count);
+                    }
+                    start = -1;
+                    count = 0;
+                }
+
+            });
+
+            // check di akhir loop
+            if (count >= 2) {
+                applyMerge(start, count);
+            }
+        }
+
+        // ============================
+        // MENERAPKAN MERGER
+        // ============================
+        function applyMerge(start, count) {
+
+            console.log("Merge kolom:", start, "sampai", start + count - 1);
+
+            // Kolom yang akan ditampilkan hanya yang pertama
+            const tdNilaiAwal = nilaiTDs[start];
+            const tdPersenAwal = persenTDs[start];
+
+            tdNilaiAwal.colSpan = count;
+            tdPersenAwal.colSpan = count;
+
+            // Kolom lain disembunyikan
+            for (let i = start + 1; i < start + count; i++) {
+                nilaiTDs[i].style.display = "none";
+                persenTDs[i].style.display = "none";
+
+                // Kosongkan inputnya
+                nilaiInputs[i].value = "";
+            }
+        }
+
+        // ============================
+        // PANTAU PERUBAHAN SELECT
+        // ============================
+        monthSelects.forEach(sel => {
+            sel.addEventListener("change", function() {
+                mergePraPengadaan();
             });
         });
 

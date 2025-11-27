@@ -696,4 +696,62 @@ class Md_daftar_km extends CI_Model
             ->from('tbl_daftar_km')
             ->count_all_results();
     }
+
+    public function row_kode_daftar_km($id_kontrak, $level_daftar_km)
+    {
+        return $this->db
+            ->select("*")
+            ->from("tbl_daftar_km")
+            ->where("id_kontrak", $id_kontrak)
+            ->where("level_daftar_km", $level_daftar_km)
+            ->get()
+            ->row_array();
+    }
+
+
+    public function getDetailByKodeDaftarKM($kode)
+    {
+        return $this->db
+            ->select("kode_detail_daftar_km, keterangan_kontrak AS label, nilai_proyek")
+            ->from("tbl_detail_daftar_km")
+            ->where("kode_daftar_km", $kode)
+            ->order_by("id_detail_daftar_km", "ASC")
+            ->get()
+            ->result_array();
+    }
+
+    public function run_sp_daftar_km($data)
+    {
+        $sql = "CALL sp_daftar_km_process(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $query = $this->db->query($sql, [
+            $data['id_kontrak'],
+            $data['nomor_kontrak'],
+            $data['nama_kontrak'],
+            $data['tanggal_kontrak'],
+            $data['tahun_anggaran'],
+            $data['add_terupdate'],
+            $data['nilai_addendum_terupdate'],
+            $data['level_daftar_km'],
+            $data['nama_program'],
+            $data['detail_json'],
+        ]);
+
+        $result = $query->row_array();
+
+        // Clear all remaining results from stored procedure
+        while ($this->db->conn_id->more_results()) {
+            $this->db->conn_id->next_result();
+        }
+
+        return $result;
+    }
+
+    public function getRencanaByDetail($kode_detail)
+    {
+        return $this->db->where("kode_detail_daftar_km", $kode_detail)
+            ->order_by("bulan", "ASC")
+            ->get("tbl_detail_rencana_km")
+            ->result_array();
+    }
 }

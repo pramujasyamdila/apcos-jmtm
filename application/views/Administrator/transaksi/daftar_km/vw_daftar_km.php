@@ -455,12 +455,6 @@
                                                                                 <select id="add-kontrak"
                                                                                     class="form-select border-dark"
                                                                                     aria-label="Default select example">
-                                                                                    <option selected disabled value="0">Open
-                                                                                        this select
-                                                                                    </option>
-                                                                                    <option value="1">Kontrak</option>
-                                                                                    <option value="2">Add I</option>
-                                                                                    <option value="3">Add II</option>
                                                                                 </select>
                                                                                 <input id="jml_kontrak" type="text"
                                                                                     class="form-control border-dark text-end"

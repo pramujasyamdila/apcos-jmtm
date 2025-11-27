@@ -471,20 +471,20 @@
                                     // TAMPILKAN DI TABEL MODAL
                                     // =============================
                                     let htmlAdd = `
-        <tr class="table-warning fw-bold">
-            <td>Kontrak Awal</td>
-            <td>${formatRupiah(rowData.awal)}</td>
-        </tr>
-    `;
+                                                <tr class="table-warning fw-bold">
+                                                    <td>Kontrak Awal</td>
+                                                    <td>${formatRupiah(rowData.awal)}</td>
+                                                </tr>
+                                            `;
 
                                     listAdd.forEach(item => {
                                         if (item.no > 0) {
                                             htmlAdd += `
-                <tr>
-                    <td>Add ${item.romawi}</td>
-                    <td>${formatRupiah(item.nilai)}</td>
-                </tr>
-            `;
+                                            <tr>
+                                                <td>Add ${item.romawi}</td>
+                                                <td>${formatRupiah(item.nilai)}</td>
+                                            </tr>
+                                        `;
                                         }
                                     });
 
@@ -499,9 +499,6 @@
                                     });
 
                                     formData.detail_addendum = detailAddendumFinal; // pakai hasil klik detail
-
-                                    console.log("FINAL DATA:", formData);
-
                                     Swal.fire({
                                         title: "Generate Data...",
                                         html: "Mohon tunggu sebentar...",
@@ -519,17 +516,53 @@
                                         contentType: "application/json",
                                         dataType: "json",
                                         success: function(res) {
+                                            if (res.detail) {
+                                                window.addendumData = res.detail;
+                                                let dropdown = $("#add-kontrak");
+                                                dropdown.empty();
+                                                dropdown.append(`<option disabled selected value="">Pilih Kontrak / Addendum</option>`);
+
+                                                res.detail.forEach((item, index) => {
+                                                    dropdown.append(`<option value="${index}">${item.label}</option>`);
+                                                });
+
+                                                function formatRP(v) {
+                                                    return "Rp " + v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                                }
+                                                dropdown.off("change").on("change", function() {
+
+                                                    let idx = $(this).val();
+                                                    let selected = addendumData[idx];
+
+                                                    // Update input kontrak
+                                                    $("#jml_kontrak").val(formatRP(selected.nilai_proyek));
+
+                                                    // ===== AJAX REQUEST KE SERVER UNTUK GET RENCANA BULAN =====
+                                                    $.ajax({
+                                                        url: "<?= base_url('administrator/transaksi/daftar_km/ctrl_daftar_km/get_rencana_km'); ?>",
+                                                        type: "POST",
+                                                        data: JSON.stringify({
+                                                            kode_detail: selected.kode_detail_daftar_km
+                                                        }),
+                                                        contentType: "application/json",
+                                                        dataType: "json",
+
+                                                        success: function(resMonth) {
 
 
 
-                                            // kalau data sudah pernah dibuat → JANGAN munculkan loading
+                                                        }
+                                                    });
+
+                                                });
+                                                dropdown.val(res.detail.length - 1).trigger("change");
+                                            }
                                             if (res.status === "exist") {
                                                 Swal.close();
                                                 return;
                                             }
 
                                             Swal.close(); // tutup loading
-
                                             Swal.fire({
                                                 icon: res.status ? "success" : "warning",
                                                 title: res.status ? "Berhasil!" : "Peringatan!",
@@ -594,6 +627,7 @@
 
     });
 </script>
+
 
 <script>
     jQuery.extend(jQuery.fn.dataTableExt.oSort, {
