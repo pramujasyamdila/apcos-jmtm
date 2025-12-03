@@ -509,6 +509,60 @@
                                         }
                                     });
 
+                                    function hitungPersen(i) {
+
+                                        // Karena field form pakai 1–12, bukan 0–11
+                                        let idx = i + 1;
+
+                                        let nilaiInput = $(`[name="nilai_rencana_${idx}"]`).val();
+
+                                        // Jika user isi 0 → persen tetap 0,00
+                                        if (nilaiInput.trim() === "") {
+                                            $(`[name="persentase_rencana_${idx}"]`).val("");
+                                            return;
+                                        }
+
+                                        // convert "5,27" → 5.27 (juta)
+                                        let nilaiJuta = parseFloat(
+                                            nilaiInput.replace(/\./g, "").replace(",", ".")
+                                        );
+
+                                        // Jika NaN, anggap 0
+                                        if (isNaN(nilaiJuta)) nilaiJuta = 0;
+
+                                        // convert juta → rupiah
+                                        let nilaiRupiah = nilaiJuta * 1000000;
+
+                                        // kontrak dalam rupiah → misal "Rp 28.500.000.000"
+                                        let kontrak = parseFloat(
+                                            $("#jml_kontrak").val()
+                                            .replace(/Rp|\s|\./g, "")
+                                            .replace(",", ".")
+                                        );
+
+                                        if (isNaN(kontrak) || kontrak <= 0) {
+                                            $(`[name="persentase_rencana_${idx}"]`).val("");
+                                            return;
+                                        }
+
+                                        // hitung persen
+                                        let persen = (nilaiRupiah / kontrak) * 100;
+
+                                        // tampilkan dengan koma
+                                        $(`[name="persentase_rencana_${idx}"]`).val(
+                                            persen.toFixed(2).replace(".", ",")
+                                        );
+                                    }
+
+
+                                    function hitungSemuaPersen() {
+                                        for (let i = 0; i < 12; i++) {
+                                            hitungPersen(i);
+                                        }
+                                    }
+
+
+
                                     $.ajax({
                                         url: "<?= base_url('administrator/transaksi/daftar_km/ctrl_daftar_km/save_daftar_km'); ?>",
                                         type: "POST",
@@ -542,17 +596,87 @@
                                                         url: "<?= base_url('administrator/transaksi/daftar_km/ctrl_daftar_km/get_rencana_km'); ?>",
                                                         type: "POST",
                                                         data: JSON.stringify({
-                                                            kode_detail: selected.kode_detail_daftar_km
+                                                            kode_detail: selected.kode_daftar_km
                                                         }),
                                                         contentType: "application/json",
                                                         dataType: "json",
 
                                                         success: function(resMonth) {
+                                                            if (resMonth.status) {
+
+                                                                // SET KODE DETAIL
+                                                                $('[name="kode_detail_daftar_km_update"]').val(selected.kode_daftar_km);
+
+                                                                // 🔥 INI YANG PENTING – DEFINE BAHWA "bulan" = data bulan dari API
+                                                                let bulan = resMonth.data;
+
+                                                                // LIST NAMA BULAN
+                                                                let monthMap = [
+                                                                    "januari", "februari", "maret", "april", "mei", "juni",
+                                                                    "juli", "agustus", "september", "oktober", "november", "desember"
+                                                                ];
+
+                                                                monthMap.forEach((nama, i) => {
 
 
+                                                                    // ================================
+                                                                    // KONVERSI RUPIAH → JUTA (FORMAT USER)
+                                                                    // ================================
+                                                                    let nilaiDB = bulan[nama].nilai_rencana || 0; // SUDAH DALAM JUTA LANGSUNG
+                                                                    let nilaiFormatted = nilaiDB.toString().replace(".", ",");
 
+
+                                                                    // STATUS BULAN
+                                                                    let status = bulan[nama].sts_bulan || "0";
+
+                                                                    // UPDATE SELECT STATUS
+                                                                    $(`[name="sts_bulan_${i+1}"]`).val(status);
+
+                                                                    // ================================
+                                                                    // LOGIKA ENABLE / DISABLE INPUT NILAI
+                                                                    // ================================
+                                                                    if (status == "3") {
+
+                                                                        // saat PELAKSANAAN → nilai harus DITAMPILKAN dan bisa diedit
+                                                                        $(`[name="nilai_rencana_${i+1}"]`)
+                                                                            .prop("disabled", false)
+                                                                            .css("background-color", "white")
+                                                                            .val(nilaiFormatted);
+
+                                                                    } else {
+
+                                                                        // selain pelaksanaan → nilai TETAP DITAMPILKAN tapi readonly
+                                                                        $(`[name="nilai_rencana_${i+1}"]`)
+                                                                            .prop("disabled", true)
+                                                                            .css("background-color", "#e9ecef")
+                                                                            .val(nilaiFormatted);
+
+                                                                    }
+
+                                                                    // ================================
+                                                                    // PERSENTASE RENCANA KEMBALI DARI DB (APA ADANYA)
+                                                                    // ================================
+                                                                    let persenDB = bulan[nama].persentase_rencana;
+
+                                                                    if (persenDB !== null && persenDB !== "") {
+                                                                        persenDB = persenDB.toString().replace(".", ",");
+                                                                    } else {
+                                                                        persenDB = "";
+                                                                    }
+
+                                                                    $(`[name="persentase_rencana_${i+1}"]`).val(persenDB);
+
+                                                                });
+
+                                                                setTimeout(() => {
+                                                                    hitungSemuaPersen();
+                                                                }, 50);
+
+
+                                                            }
                                                         }
                                                     });
+
 
                                                 });
                                                 dropdown.val(res.detail.length - 1).trigger("change");
@@ -625,6 +749,51 @@
 
         });
 
+    });
+</script>
+
+<script>
+    $("#link-simpan").on("click", function(e) {
+        e.preventDefault();
+
+        let kode_detail = $('[name="kode_detail_daftar_km_update"]').val();
+
+        // Ambil nilai 12 bulan
+        let nilaiRencana = {};
+        for (let i = 1; i <= 12; i++) {
+            nilaiRencana["bulan_" + i] = $('[name="nilai_rencana_' + i + '"]').val();
+        }
+
+        let stsBulan = {};
+        for (let i = 1; i <= 12; i++) {
+            stsBulan["bulan_" + i] = $('[name="sts_bulan_' + i + '"]').val();
+        }
+
+        let persentaseRencana = {};
+        for (let i = 1; i <= 12; i++) {
+            persentaseRencana["bulan_" + i] = $('[name="persentase_rencana_' + i + '"]').val();
+        }
+
+        $.ajax({
+            url: "<?= base_url('administrator/transaksi/daftar_km/ctrl_daftar_km/update_rencana_km'); ?>",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                kode_detail: kode_detail,
+                nilaiRencana: nilaiRencana,
+                stsBulan: stsBulan,
+                persentaseRencana: persentaseRencana
+            }),
+            success: function(res) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil",
+                    text: "Data berhasil diperbarui!",
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            }
+        });
     });
 </script>
 

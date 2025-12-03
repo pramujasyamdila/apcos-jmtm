@@ -712,7 +712,7 @@ class Md_daftar_km extends CI_Model
     public function getDetailByKodeDaftarKM($kode)
     {
         return $this->db
-            ->select("kode_detail_daftar_km, keterangan_kontrak AS label, nilai_proyek")
+            ->select("kode_daftar_km, keterangan_kontrak AS label, nilai_proyek")
             ->from("tbl_detail_daftar_km")
             ->where("kode_daftar_km", $kode)
             ->order_by("id_detail_daftar_km", "ASC")
@@ -753,5 +753,67 @@ class Md_daftar_km extends CI_Model
             ->order_by("bulan", "ASC")
             ->get("tbl_detail_rencana_km")
             ->result_array();
+    }
+
+
+    public function getRencanaByBulan($kode_detail)
+    {
+        // bulan = 1 → januari
+        $nama_bulan = [
+            1 => "januari",
+            2 => "februari",
+            3 => "maret",
+            4 => "april",
+            5 => "mei",
+            6 => "juni",
+            7 => "juli",
+            8 => "agustus",
+            9 => "september",
+            10 => "oktober",
+            11 => "november",
+            12 => "desember"
+        ];
+
+        $output = [];
+
+        foreach ($nama_bulan as $angka => $nama) {
+
+            $row = $this->db
+                ->where("kode_daftar_km", $kode_detail)
+                ->where("bulan", $angka)
+                ->get("tbl_detail_rencana_km")
+                ->row_array();
+
+            // Kalau tidak ada, beri nilai default
+            if (!$row) {
+                $row = [
+                    "kode_daftar_km" => $kode_detail,
+                    "bulan" => $angka,
+                    "nilai_rencana" => null,
+                    "sts_bulan" => null,
+                    "persentase_rencana" => null
+                ];
+            }
+
+            $output[$nama] = $row; // contoh: $output['januari'] = data bulan 1
+        }
+
+        return $output;
+    }
+
+    public function updateRencanaKm($kode_detail, $nilaiRencana, $stsBulan, $persentaseRencana)
+    {
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+
+            $this->db->where("kode_daftar_km", $kode_detail)
+                ->where("bulan", $bulan)
+                ->update("tbl_detail_rencana_km", [
+                    "nilai_rencana"       => $nilaiRencana["bulan_" . $bulan],
+                    "sts_bulan"           => $stsBulan["bulan_" . $bulan],
+                    "persentase_rencana"  => $persentaseRencana["bulan_" . $bulan]
+                ]);
+        }
+
+        return true;
     }
 }

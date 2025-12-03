@@ -468,6 +468,7 @@
                                                         </div>
                                                         <h6 class="border-bottom border-white pb-2 mb-0"></h6>
                                                         <div class="table-responsive">
+                                                            <input type="hidden" name="kode_detail_daftar_km_update">
                                                             <table
                                                                 class="table table-sm table-bordered table-striped align-middle">
                                                                 <thead class="table-secondary small text-dark fw-bold">
@@ -528,7 +529,7 @@
                                                                     <tr>
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
-                                                                            <select id="0"
+                                                                            <select id="0" name="sts_bulan_1"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
 
@@ -542,6 +543,7 @@
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
                                                                             <select id="1"
+                                                                                name="sts_bulan_2"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
 
@@ -555,6 +557,7 @@
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
                                                                             <select id="2"
+                                                                                name="sts_bulan_3"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
 
@@ -568,6 +571,7 @@
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
                                                                             <select id="3"
+                                                                                name="sts_bulan_4"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
 
@@ -581,6 +585,7 @@
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
                                                                             <select id="4"
+                                                                                name="sts_bulan_5"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
                                                                                 </option>
@@ -593,6 +598,7 @@
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
                                                                             <select id="5"
+                                                                                name="sts_bulan_6"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
                                                                                 </option>
@@ -605,6 +611,7 @@
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
                                                                             <select id="6"
+                                                                                name="sts_bulan_7"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
                                                                                 </option>
@@ -617,6 +624,7 @@
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
                                                                             <select id="7"
+                                                                                name="sts_bulan_8"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
                                                                                 </option>
@@ -629,6 +637,7 @@
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
                                                                             <select id="8"
+                                                                                name="sts_bulan_9"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
                                                                                 </option>
@@ -641,6 +650,7 @@
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
                                                                             <select id="9"
+                                                                                name="sts_bulan_10"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
                                                                                 </option>
@@ -653,6 +663,7 @@
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
                                                                             <select id="10"
+                                                                                name="sts_bulan_11"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
                                                                                 </option>
@@ -665,6 +676,7 @@
                                                                         <th scope="col" class="text-center"
                                                                             style="width: 80px;">
                                                                             <select id="11"
+                                                                                name="sts_bulan_12"
                                                                                 class="form-select form-select-sm border-dark">
                                                                                 <option selected disabled value="0">Open
                                                                                 </option>
@@ -680,79 +692,88 @@
                                                                     <tr>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
-                                                                            <input id="1"
+                                                                            <input id="1" name="nilai_rencana_1"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
-                                                                            <input id="2"
+                                                                            <input id="2" name="nilai_rencana_2"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
-                                                                            <input id="3"
+                                                                            <input id="3" name="nilai_rencana_3"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
-                                                                            <input id="4"
+                                                                            <input id="4" name="nilai_rencana_4"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="5"
+                                                                                name="nilai_rencana_5"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="6"
+                                                                                name="nilai_rencana_6"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="7"
+                                                                                name="nilai_rencana_7"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="8"
+                                                                                name="nilai_rencana_8"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="9"
+                                                                                name="nilai_rencana_9"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="10"
+                                                                                name="nilai_rencana_10"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="11"
+                                                                                name="nilai_rencana_11"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="12"
+                                                                                name="nilai_rencana_12"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text">
                                                                         </td>
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="total"
+                                                                                name="total_nilai_rencana"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -762,6 +783,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-1"
+                                                                                name="persentase_rencana_1"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -769,6 +791,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-2"
+                                                                                name="persentase_rencana_2"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -776,6 +799,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-3"
+                                                                                name="persentase_rencana_3"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -783,6 +807,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-4"
+                                                                                name="persentase_rencana_4"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -790,6 +815,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-5"
+                                                                                name="persentase_rencana_5"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -797,6 +823,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-6"
+                                                                                name="persentase_rencana_6"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -804,6 +831,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-7"
+                                                                                name="persentase_rencana_7"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -811,6 +839,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-8"
+                                                                                name="persentase_rencana_8"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -818,6 +847,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-9"
+                                                                                name="persentase_rencana_9"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -825,6 +855,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-10"
+                                                                                name="persentase_rencana_10"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -832,6 +863,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-11"
+                                                                                name="persentase_rencana_11"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>
@@ -839,6 +871,7 @@
                                                                         <td scope="row" class="text-end"
                                                                             style="width: 80px;">
                                                                             <input id="p-12"
+                                                                                name="persentase_rencana_12"
                                                                                 class="form-control form-control-sm text-end"
                                                                                 type="text"
                                                                                 style="background-color: #dee2e6;" readonly>

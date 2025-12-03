@@ -89,30 +89,30 @@ class ctrl_daftar_km extends CI_Controller
 	}
 
 
-	public function save_daftar_km()
-	{
-		$post = json_decode($this->input->raw_input_stream, true);
+	// public function save_daftar_km()
+	// {
+	// 	$post = json_decode($this->input->raw_input_stream, true);
 
-		if (!$post || !$post['id_kontrak']) {
-			echo json_encode(["status" => "error", "msg" => "Data tidak lengkap!"]);
-			return;
-		}
+	// 	if (!$post || !$post['id_kontrak']) {
+	// 		echo json_encode(["status" => "error", "msg" => "Data tidak lengkap!"]);
+	// 		return;
+	// 	}
 
-		$post['detail_json'] = json_encode($post['detail_addendum']);
-		$result = $this->Md_daftar_km->run_sp_daftar_km($post);
+	// 	$post['detail_json'] = json_encode($post['detail_addendum']);
+	// 	$result = $this->Md_daftar_km->run_sp_daftar_km($post);
 
-		$kode = $this->Md_daftar_km->row_kode_daftar_km($post['id_kontrak'], $post['level_daftar_km']);
+	// 	$kode = $this->Md_daftar_km->row_kode_daftar_km($post['id_kontrak'], $post['level_daftar_km']);
 
-		$addendum = $this->Md_daftar_km->getDetailByKodeDaftarKM($kode['kode_daftar_km']);
-		echo json_encode([
-			"status" => "success",
-			"msg"    => $result["msg"],
-			"detail" => $addendum
-		]);
-		return;
+	// 	$addendum = $this->Md_daftar_km->getDetailByKodeDaftarKM($kode['kode_daftar_km']);
+	// 	echo json_encode([
+	// 		"status" => "success",
+	// 		"msg"    => $result["msg"],
+	// 		"detail" => $addendum
+	// 	]);
+	// 	return;
 
-		echo json_encode(["status" => strtolower($result["STATUS"]), "msg" => $result["msg"]]);
-	}
+	// 	echo json_encode(["status" => strtolower($result["STATUS"]), "msg" => $result["msg"]]);
+	// }
 
 	public function get_rencana_km()
 	{
@@ -123,93 +123,111 @@ class ctrl_daftar_km extends CI_Controller
 			return;
 		}
 
-		$data = $this->Md_daftar_km->getRencanaByDetail($post['kode_detail']);
-
-		$data = $this->Md_daftar_km->getRencanaByDetail($post['kode_detail']);
+		$result = $this->Md_daftar_km->getRencanaByBulan($post['kode_detail']);
 
 		echo json_encode([
 			"status" => true,
-			"data" => $data
+			"kode_daftar_km" => $post,
+			"data" => $result
 		]);
 	}
 
 
 
 
-	// public function save_daftar_km()
-	// {
-	// 	$post = json_decode($this->input->raw_input_stream, true);
+	public function update_rencana_km()
+	{
+		$post = json_decode($this->input->raw_input_stream, true);
 
-	// 	if (!$post || !$post['id_kontrak']) {
-	// 		echo json_encode(["status" => false, "msg" => "Data tidak lengkap"]);
-	// 		return;
-	// 	}
+		$kode_detail = $post['kode_detail'];
+		$nilaiRencana = $post['nilaiRencana'];
+		$stsBulan = $post['stsBulan'];
+		$persentaseRencana = $post['persentaseRencana'];
 
-	// 	// === CEK SUDAH ADA ===
-	// 	if ($this->Md_daftar_km->cekSudahAda($post['id_kontrak'], $post['level_daftar_km']) > 0) {
+		$this->Md_daftar_km->updateRencanaKm($kode_detail, $nilaiRencana, $stsBulan, $persentaseRencana);
 
-	// 		echo json_encode([
-	// 			"status" => "exist",
-	// 			"msg" => "Data untuk Level KM ini sudah pernah disimpan sebelumnya."
-	// 		]);
-	// 		return;
-	// 	}
+		echo json_encode([
+			"msg" => "Update berhasil"
+		]);
+	}
 
-	// 	// === Generate kode utama ===
-	// 	$kode_daftar_km = $this->Md_daftar_km->generateKode("tbl_daftar_km", "kode_daftar_km", "KM-");
 
-	// 	// INSERT MASTER
-	// 	$this->Md_daftar_km->insert_main([
-	// 		'kode_daftar_km' => $kode_daftar_km,
-	// 		'id_kontrak' => $post['id_kontrak'],
-	// 		'nomor_kontrak' => $post['nomor_kontrak'],
-	// 		'nama_kontrak' => $post['nama_kontrak'] ?? null,
-	// 		'tanggal_kontrak' => $post['tanggal_kontrak'],
-	// 		'tahun_anggaran' => $post['tahun_anggaran'],
-	// 		'add_terupdate' => $post['add_terupdate'],
-	// 		'nilai_addendum_terupdate' => $post['nilai_addendum_terupdate'],
-	// 		'level_daftar_km' => $post['level_daftar_km'],
-	// 		'nama_program_daftar_km' => $post['nama_program'],
-	// 	]);
 
-	// 	// === LOOP DETAIL ADDENDUM ===
-	// 	foreach ($post['detail_addendum'] as $add) {
+	public function save_daftar_km()
+	{
+		$post = json_decode($this->input->raw_input_stream, true);
 
-	// 		$kode_detail = $this->Md_daftar_km->generateKode("tbl_detail_daftar_km", "kode_detail_daftar_km", "KD-");
+		if (!$post || !$post['id_kontrak']) {
+			echo json_encode(["status" => false, "msg" => "Data tidak lengkap"]);
+			return;
+		}
 
-	// 		$this->Md_daftar_km->insert_detail([
-	// 			'kode_detail_daftar_km' => $kode_detail,
-	// 			'kode_daftar_km' => $kode_daftar_km,
-	// 			'level' => $post['level_daftar_km'],
-	// 			'nama_program' => $post['nama_program'],
-	// 			'keterangan_kontrak' => ($add['no'] == 0 ? "Kontrak Awal" : "Addendum " . $add['romawi']),
-	// 			'nilai_proyek' => $add['nilai']
-	// 		]);
+		// === CEK SUDAH ADA ===
+		if ($this->Md_daftar_km->cekSudahAda($post['id_kontrak'], $post['level_daftar_km']) > 0) {
 
-	// 		// Insert 12 bulan
-	// 		for ($bulan = 1; $bulan <= 12; $bulan++) {
-	// 			$kode_rencana = $this->Md_daftar_km->generateKode(
-	// 				"tbl_detail_rencana_km",
-	// 				"kode_detail_rencana_km",
-	// 				"RN-"
-	// 			);
+			$kode = $this->Md_daftar_km->row_kode_daftar_km($post['id_kontrak'], $post['level_daftar_km']);
 
-	// 			$this->Md_daftar_km->insert_rencana([
-	// 				'kode_detail_rencana_km' => $kode_rencana,
-	// 				'kode_detail_daftar_km' => $kode_detail,
-	// 				'bulan' => $bulan,
-	// 			]);
-	// 		}
-	// 	}
+			$detail = $this->Md_daftar_km->getDetailByKodeDaftarKM($kode['kode_daftar_km']);
+			echo json_encode([
+				"status" => "exist",
+				"msg" => "Data untuk Level KM ini sudah pernah disimpan sebelumnya.",
+				"detail" => $detail
+			]);
+			return;
+		}
 
-	// 	// ==== Ambil ulang data addendum untuk dikirim ke frontend ====
-	// 	$detail = $this->Md_daftar_km->getDetailByKodeDaftarKM($kode_daftar_km);
+		// === Generate kode utama ===
+		$kode_daftar_km = $this->Md_daftar_km->generateKode("tbl_daftar_km", "kode_daftar_km", "KM-");
 
-	// 	echo json_encode([
-	// 		"status" => true,
-	// 		"msg" => "Data tersimpan!",
-	// 		"kode" => $kode_daftar_km,
-	// 		"detail" => $detail   // <-- ini yang dipakai update UI
-	// 	]);
-	// }
+		// INSERT MASTER
+		$this->Md_daftar_km->insert_main([
+			'kode_daftar_km' => $kode_daftar_km,
+			'id_kontrak' => $post['id_kontrak'],
+			'nomor_kontrak' => $post['nomor_kontrak'],
+			'nama_kontrak' => $post['nama_kontrak'] ?? null,
+			'tanggal_kontrak' => $post['tanggal_kontrak'],
+			'tahun_anggaran' => $post['tahun_anggaran'],
+			'add_terupdate' => $post['add_terupdate'],
+			'nilai_addendum_terupdate' => $post['nilai_addendum_terupdate'],
+			'level_daftar_km' => $post['level_daftar_km'],
+			'nama_program_daftar_km' => $post['nama_program'],
+		]);
+
+		// === LOOP DETAIL ADDENDUM ===
+		foreach ($post['detail_addendum'] as $add) {
+
+			$kode_detail = $this->Md_daftar_km->generateKode("tbl_detail_daftar_km", "kode_detail_daftar_km", "KD-");
+
+			$this->Md_daftar_km->insert_detail([
+				'kode_detail_daftar_km' => $kode_detail,
+				'kode_daftar_km' => $kode_daftar_km,
+				'level' => $post['level_daftar_km'],
+				'nama_program' => $post['nama_program'],
+				'keterangan_kontrak' => ($add['no'] == 0 ? "Kontrak Awal" : "Addendum " . $add['romawi']),
+				'nilai_proyek' => $add['nilai']
+			]);
+		}
+
+		for ($bulan = 1; $bulan <= 12; $bulan++) {
+			$kode_rencana = $this->Md_daftar_km->generateKode(
+				"tbl_detail_rencana_km",
+				"kode_detail_rencana_km",
+				"RN-"
+			);
+
+			$this->Md_daftar_km->insert_rencana([
+				'kode_detail_rencana_km' => $kode_rencana,
+				'kode_daftar_km' => $kode_daftar_km,
+				'bulan' => $bulan,
+			]);
+		}
+
+		$detail = $this->Md_daftar_km->getDetailByKodeDaftarKM($kode_daftar_km);
+		echo json_encode([
+			"status" => true,
+			"msg" => "Data tersimpan!",
+			"kode" => $kode_daftar_km,
+			"detail" => $detail   // <-- ini yang dipakai update UI
+		]);
+	}
 }
