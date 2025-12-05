@@ -88,32 +88,6 @@ class ctrl_daftar_km extends CI_Controller
 		echo json_encode($data);
 	}
 
-
-	// public function save_daftar_km()
-	// {
-	// 	$post = json_decode($this->input->raw_input_stream, true);
-
-	// 	if (!$post || !$post['id_kontrak']) {
-	// 		echo json_encode(["status" => "error", "msg" => "Data tidak lengkap!"]);
-	// 		return;
-	// 	}
-
-	// 	$post['detail_json'] = json_encode($post['detail_addendum']);
-	// 	$result = $this->Md_daftar_km->run_sp_daftar_km($post);
-
-	// 	$kode = $this->Md_daftar_km->row_kode_daftar_km($post['id_kontrak'], $post['level_daftar_km']);
-
-	// 	$addendum = $this->Md_daftar_km->getDetailByKodeDaftarKM($kode['kode_daftar_km']);
-	// 	echo json_encode([
-	// 		"status" => "success",
-	// 		"msg"    => $result["msg"],
-	// 		"detail" => $addendum
-	// 	]);
-	// 	return;
-
-	// 	echo json_encode(["status" => strtolower($result["STATUS"]), "msg" => $result["msg"]]);
-	// }
-
 	public function get_rencana_km()
 	{
 		$post = json_decode($this->input->raw_input_stream, true);
@@ -132,9 +106,6 @@ class ctrl_daftar_km extends CI_Controller
 		]);
 	}
 
-
-
-
 	public function update_rencana_km()
 	{
 		$post = json_decode($this->input->raw_input_stream, true);
@@ -143,15 +114,11 @@ class ctrl_daftar_km extends CI_Controller
 		$nilaiRencana = $post['nilaiRencana'];
 		$stsBulan = $post['stsBulan'];
 		$persentaseRencana = $post['persentaseRencana'];
-
 		$this->Md_daftar_km->updateRencanaKm($kode_detail, $nilaiRencana, $stsBulan, $persentaseRencana);
-
 		echo json_encode([
 			"msg" => "Update berhasil"
 		]);
 	}
-
-
 
 	public function save_daftar_km()
 	{

@@ -56,7 +56,7 @@
 
             <!-- USER DROPDOWN NAVBAR -->
             <div class="position-relative" id="userArea" style="cursor:pointer;">
-                <img id="userPic" src="<?php echo base_url();?>/assets/brand/avatar5.png" class="rounded-circle me-2"
+                <img id="userPic" src="<?php echo base_url(); ?>/assets/brand/avatar5.png" class="rounded-circle me-2"
                     width="40" />
 
                 <div id="userDropdown" class="user-dropdown">
@@ -85,7 +85,7 @@
         <ul class="nav flex-column">
 
             <li class="nav-item position-relative">
-                <a class="nav-link" href="<?php echo base_url();?>administrator/dashboard/ctrl_dashboard"
+                <a class="nav-link" href="<?php echo base_url(); ?>administrator/dashboard/ctrl_dashboard"
                     data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
                     <i class="bi bi-speedometer2"></i>
                     <span class="menu-text">Dashboard</span>
@@ -118,9 +118,10 @@
                 </a>
 
                 <div class="sidebar-submenu">
-                    <a href="<?php echo base_url();?>administrator/transaksi/daftar_km/ctrl_daftar_km"
+                    <a href="<?php echo base_url(); ?>administrator/transaksi/daftar_km/ctrl_daftar_km"
                         class="nav-link"><small>Daftar KM</small></a>
-                    <a href="#" class="nav-link"><small>Plan & Real KM</small></a>
+                    <a href="<?php echo base_url(); ?>administrator/transaksi/daftar_km/ctrl_daftar_program"
+                        class="nav-link"><small>Daftar Program</small></a>
                 </div>
             </li>
 
@@ -145,7 +146,7 @@
         <!-- ================= SIDEBAR USER BOTTOM ================= -->
         <div id="sidebarUser" class="sidebar-user position-absolute w-100">
             <div class="d-flex align-items-center sidebar-user-btn px-3 py-2" style="cursor:pointer;">
-                <img src="<?php echo base_url();?>/assets/brand/avatar5.png" class="rounded-circle me-2" width="35">
+                <img src="<?php echo base_url(); ?>/assets/brand/avatar5.png" class="rounded-circle me-2" width="35">
 
                 <span class="menu-text text-white fw-bold truncate-name">
                     <small>Ahmad Fikri</small>
