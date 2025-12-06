@@ -2,12 +2,20 @@
         .nama-ellipsis {
             display: inline-block;
             max-width: 150px;
-            /* batas lebar */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            vertical-align: middle;
         }
+
+        .sub-nama {
+            display: inline-block;
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+
 
         /* Pagination compact */
         .dataTables_wrapper .dataTables_paginate .paginate_button {

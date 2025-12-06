@@ -58,13 +58,32 @@ class ctrl_daftar_program extends CI_Controller
             );
             $aksi = '<button class="btn btn-sm btn-primary btnTambahAksi" data-id-kontrak="' . $row['id_detail_program_penyedia_jasa'] . '" data-bs-toggle="tooltip" title="Tambah Aksi"><i class="fa-solid fa-plus"></i></button>';
             // ---- Parent Row ----
+            // ---- Parent Row: Hitung Nilai Kontrak dengan Logika Addendum ----
+            if ($row['addendum_kontrak_penyedia_terpilih'] == 'kontrak_awal') {
+
+                if ($row['total_kontrak'] == NULL) {
+                    $nilai_parent = "Belum Buat Kontrak";
+                } else {
+                    $nilai_parent = "Rp " . number_format($row['total_kontrak'], 2, ',', '.');
+                }
+            } else {
+
+                $addendum_key = 'total_kontrak_addendum_' . $row['addendum_kontrak_penyedia_terpilih'];
+
+                if (!isset($row[$addendum_key]) || $row[$addendum_key] == NULL) {
+                    $nilai_parent = "Belum Buat Kontrak";
+                } else {
+                    $nilai_parent = "Rp " . number_format($row[$addendum_key], 2, ',', '.');
+                }
+            }
+
             $output[] = [
                 "no"        => "<b>$no</b>",
-                "nama_program"      => "<b>{$row['nama_pekerjaan_program_mata_anggaran']}</b>",
+                "nama"      => $row['nama_pekerjaan_program_mata_anggaran'],
                 "anggaran"  => $row['mata_anggaran_surat'] ?: '-',
                 "penyedia"  => $row['nama_penyedia'] ?: '-',
                 "no_kontrak" => $row['no_surat_kontrak'] ?: '-',
-                "nilai"     => number_format(($row['total_kontrak'] ?? 0), 2, ',', '.'),
+                "nilai"     => $nilai_parent,
                 "aksi"      => $aksi
             ];
 
@@ -77,7 +96,7 @@ class ctrl_daftar_program extends CI_Controller
 
                 $output[] = [
                     "no"        => "",
-                    "nama_sub"      => '<span style="padding-left:25px">↳ ' . $sub['nama_program_mata_anggaran'] . '</span>',
+                    "nama"      => '↳ ' . $sub['nama_program_mata_anggaran'],
                     "anggaran"  => "",
                     "penyedia"  => "",
                     "no_kontrak" => "",

@@ -184,19 +184,82 @@
                                         },
                                         {
                                             data: 'nama',
+                                            render: function(data, type, row) {
+                                                if (!data) data = "-";
 
+                                                // --- Deteksi Sub-row (no kosong/null/spasi) ---
+                                                if (!row.no || row.no.toString().trim() === "") {
+                                                    return `
+                                                        <span class="sub-nama"
+                                                            data-bs-toggle="tooltip"
+                                                            title="${data}">
+                                                             ${data}
+                                                        </span>
+                                                    `;
+                                                }
+
+                                                // --- Parent Row ---
+                                                return `
+                                                    <span class="nama-ellipsis"
+                                                        data-bs-toggle="tooltip"
+                                                        title="${data}">
+                                                        ${data}
+                                                    </span>
+                                                `;
+                                            }
                                         },
                                         {
                                             data: 'anggaran',
-                                            className: 'text-center'
+                                            render: function(data, type, row) {
+                                                if (!data) data = "";
+                                                // Deteksi row sub (no kosong/null/spasi)
+                                                const isSub = (!row.no || row.no.toString().trim() === "");
+                                                return `
+                                                    <span class="nama-ellipsis"
+                                                        style="${isSub ? 'padding-left:25px;' : ''}"
+                                                        data-bs-toggle="tooltip"
+                                                        title="${data}">
+                                                        ${isSub ? '' : ''}${data}
+                                                    </span>
+                                                `;
+                                            }
+
                                         },
                                         {
                                             data: 'penyedia',
-                                            className: 'text-center'
+                                            render: function(data, type, row) {
+                                                if (!data) data = "";
+
+                                                // Deteksi row sub (no kosong/null/spasi)
+                                                const isSub = (!row.no || row.no.toString().trim() === "");
+                                                return `
+                                                    <span class="nama-ellipsis"
+                                                        style="${isSub ? 'padding-left:25px;' : ''}"
+                                                        data-bs-toggle="tooltip"
+                                                        title="${data}">
+                                                        ${isSub ? '' : ''}${data}
+                                                    </span>
+                                                `;
+                                            }
+
                                         },
                                         {
                                             data: 'no_kontrak',
-                                            className: 'text-center'
+                                            render: function(data, type, row) {
+                                                if (!data) data = "";
+
+                                                // Deteksi row sub (no kosong/null/spasi)
+                                                const isSub = (!row.no || row.no.toString().trim() === "");
+                                                return `
+                                                    <span class="nama-ellipsis"
+                                                        style="${isSub ? 'padding-left:25px;' : ''}"
+                                                        data-bs-toggle="tooltip"
+                                                        title="${data}">
+                                                        ${isSub ? ' ' : ''}${data}
+                                                    </span>
+                                                `;
+                                            }
+
                                         },
                                         {
                                             data: 'nilai',
@@ -214,10 +277,10 @@
                                     }
                                 });
 
-
-                                // Refresh tooltip on redraw
-                                mirrorTable.on('draw', function() {
-                                    $('[data-bs-toggle="tooltip"]').tooltip();
+                                table.on('draw', function() {
+                                    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+                                        new bootstrap.Tooltip(el);
+                                    });
                                 });
 
                                 // =====================================================
@@ -634,11 +697,7 @@
                                         }
                                     });
                                 });
-                                // setelah DataTable init / draw
-                                $('[data-bs-toggle="tooltip"]').tooltip(); // inisialisasi
-                                $('#mirrorTable').on('draw.dt', function() {
-                                    $('[data-bs-toggle="tooltip"]').tooltip(); // re-init setelah redraw
-                                });
+
 
                             },
                             error: function() {
